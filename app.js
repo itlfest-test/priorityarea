@@ -102,6 +102,9 @@ function renderWelcome() {
     <p style="font-size:14px;line-height:1.8;color:var(--text2);margin-top:12px">
       次に来る電車の情報を知りたい場合、<a href="https://loo-ool.com/rail/" target="_blank" rel="noopener" class="link">このサイト</a>と時刻表を見比べ、来る車両を検索してください。詳しいやり方は次の画面の「？」ボタンからご確認ください。
     </p>
+    <p style="font-size:12px;line-height:1.7;color:var(--text3);margin-top:10px">
+      ※リンク先のページは有志により一般公開されている運用情報サイト（loo-ool）です。
+    </p>
     <button class="primary-btn" data-action="toLine" style="margin-top:20px">路線を選ぶ →</button>
   </div>`;
 }
@@ -131,16 +134,29 @@ function renderLine() {
 
 function renderHelp() {
   return `<div class="card">
-    <p style="font-size:15px;line-height:1.8">
-      <a href="https://loo-ool.com/rail/" target="_blank" rel="noopener" class="link">このサイト</a>の使い方をご案内します。
+    <p style="font-size:14px;line-height:1.8;margin-bottom:12px">
+      Topでご紹介した外部サイト（<a href="https://loo-ool.com/rail/" target="_blank" rel="noopener" class="link">loo-ool</a>）の使い方をご案内します。
     </p>
-    <ol style="font-size:14px;line-height:1.9;padding-left:1.4em;margin-top:12px">
+    <ol style="font-size:14px;line-height:1.9;padding-left:1.4em">
       <li>下までスクロールして「路線一覧」からこれから利用予定の路線を選択してください。</li>
       <li>一番上の「時刻表」を押し、利用する駅から最も近い駅を選んでください。</li>
-      <li>時刻表を基に、②で選んだ駅を何時何分に出発する電車かを調べ、行き先の下あたりに書いてある、比較的長い数字を覚えてください。</li>
-      <li>このサイトに戻り、路線を選択し、「車体側面にある数字を入力する」ボタンから③で覚えた番号を入力してください。</li>
+      <li>時刻表を基に、乗車する駅を何時何分に出発する電車かを調べ、行き先の下あたりに書いてある<strong>4桁〜5桁の数字（車号）</strong>を覚えてください。</li>
+      <li>このサイトに戻り、路線を選択し、「車いす・優先席を検索する」ボタンから手順③で覚えた番号を入力してください。</li>
     </ol>
-    <p style="font-size:12px;color:var(--text3);margin-top:14px;line-height:1.7">
+    <div class="photo-example">
+      <p style="font-size:12px;color:var(--text3);margin-bottom:8px">車号の例（車両側面に記載）</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="photo-card">
+          <img src="img/photo_10031.jpg" alt="10000系 車号10031" style="width:100%;border-radius:6px;display:block">
+          <p style="font-size:12px;color:var(--text2);margin-top:5px;text-align:center">例：10031（東京メトロ10000系）</p>
+        </div>
+        <div class="photo-card">
+          <img src="img/photo_4113.jpg" alt="5050系4000番台 車号4113" style="width:100%;border-radius:6px;display:block">
+          <p style="font-size:12px;color:var(--text2);margin-top:5px;text-align:center">例：4113（東急5050系4000番台）</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text3);margin-top:12px;line-height:1.7">
       ※一部サイト上での表記と実際の番号が異なります。わからない場合は電車が到着してからご確認ください。
     </p>
   </div>`;
