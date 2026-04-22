@@ -239,6 +239,7 @@ body {
 #navBack { left: 1rem; }
 #navFwd  { right: 1rem; }
 #navTop  { left: 50%; transform: translateX(-50%); font-size: 13px; font-weight: 600; width: auto; padding: 0 14px; border-radius: 22px; }
+.nav-fixed[style*="hidden"] { pointer-events: none; }
 
 /* ── ヘルプ画面 写真例 ── */
 .photo-example {
