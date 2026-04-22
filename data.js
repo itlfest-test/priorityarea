@@ -5,15 +5,17 @@
 // dir_left / dir_right: 方面表示文字列
 // ═══════════════════════════════════════════════════════
 
+// 車端部優先席：各号車のドア1列目とドア4列目のみ、編成端（1号車1番・最終号車4番）を除く
 function allPriority(cars) {
   const r = [];
-  for (let c = 1; c <= cars; c++)
-    for (let d = 1; d <= 4; d++)
-      for (const s of ['top','bottom']) {
-        if (c===1 && d===1) continue;
-        if (c===cars && d===4) continue;
-        r.push({car:c,door:d,side:s});
-      }
+  for (let c = 1; c <= cars; c++) {
+    for (const s of ['top','bottom']) {
+      // 1番ドア側（編成端の1号車1番は除く）
+      if (!(c===1)) r.push({car:c,door:1,side:s});
+      // 4番ドア側（編成端の最終号車4番は除く）
+      if (!(c===cars)) r.push({car:c,door:4,side:s});
+    }
+  }
   return r;
 }
 function doorPriority(list) {
@@ -352,18 +354,26 @@ const TRAINS = [
 
 // ── 丸ノ内線 ───────────────────────────────────────────
 const MARUNOUCHI = {
-  name:'2000系', company:'東京メトロ', cars:6, marunouchi:true,
-  dir_left:'池袋方面（1番ドア側）',
-  dir_right:'荻窪・方南町方面（4番ドア側）',
+  name:'2000系', company:'東京メトロ', cars:6, marunouchi:true, doors:3,
+  dir_left:'池袋方面',
+  dir_right:'荻窪・方南町方面',
   zones:[
-    ...Array.from({length:5},(_,i)=>[{car:i+1,door:1,side:'top',type:'wheelchair'},{car:i+1,door:1,side:'bottom',type:'wheelchair'}]).flat(),
-    {car:6,door:4,side:'top',type:'wheelchair'},{car:6,door:4,side:'bottom',type:'wheelchair'},
+    ...Array.from({length:5},(_,i)=>[
+      {car:i+1,door:1,side:'top',   type:'wheelchair'},
+      {car:i+1,door:1,side:'bottom',type:'wheelchair'},
+    ]).flat(),
+    {car:6,door:3,side:'top',   type:'wheelchair'},
+    {car:6,door:3,side:'bottom',type:'wheelchair'},
   ],
   priority_zones:[
-    ...Array.from({length:5},(_,i)=>[2,3,4].map(d=>[{car:i+1,door:d,side:'top'},{car:i+1,door:d,side:'bottom'}])).flat(2),
-    ...[1,2,3].map(d=>[{car:6,door:d,side:'top'},{car:6,door:d,side:'bottom'}]).flat(),
+    ...Array.from({length:5},(_,i)=>[
+      {car:i+1,door:3,side:'top'},
+      {car:i+1,door:3,side:'bottom'},
+    ]).flat(),
+    {car:6,door:1,side:'top'},
+    {car:6,door:1,side:'bottom'},
   ],
-  wheelchair_text:'1〜5号車：池袋寄り（1番ドア側）車端\n6号車：荻窪・方南町寄り（4番ドア側）車端',
+  wheelchair_text:'1〜5号車：池袋寄り（1番ドア側）車端\n6号車：荻窪・方南町寄り（3番ドア側）車端',
   priority_text:'車いすスペース以外の各車両車端部（編成端を除く）',
 };
 
