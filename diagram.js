@@ -113,10 +113,11 @@ function buildDirectionRow(train) {
   </div>`;
 }
 
-function buildSideLabel() {
+function buildSideLabel(doors) {
+  const lastDoor = doors || 4;
   return `<div class="side-label-row">
     <span>進行左（1番ドア側）</span>
-    <span>進行右（最終ドア側）</span>
+    <span>進行右（${lastDoor}番ドア側）</span>
   </div>`;
 }
 
