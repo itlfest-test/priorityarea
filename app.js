@@ -52,9 +52,16 @@ function getById(id) { return TRAINS.find(t => t.id === id); }
 function getCands(ds) { return TRAINS.filter(t => !t.visualOnly && t.partial(ds)); }
 function getMatch(ds) { return TRAINS.find(t => !t.visualOnly && t.match(ds)) || null; }
 
-// 4で始まる場合は5桁（末尾Y）まで必要かどうか
+// 5桁目の入力が必要かどうか
+// 4始まり: 3桁目1のQシート系(4桁目入力済)、または40050系(4桁目5,6入力済)
 function needs5th(ds) {
-  return ds.length === 4 && ds[0] === '4';
+  if (ds.length !== 4) return false;
+  if (ds[0] !== '4') return false;
+  // 3桁目1 → 4000番台Qシートあり/なし系 → 5桁目Y必要
+  if (ds[2] === '1') return true;
+  // 2桁目0かつ4桁目5,6 → 40050系 → 5桁目必要
+  if (ds[1] === '0' && /[56]/.test(ds[3])) return true;
+  return false;
 }
 
 function pushDigit(ch) {
@@ -229,7 +236,7 @@ function renderResultCard(train) {
   const priText = train.priority_text   || '調査中';
   const diag    = buildDiagram(train);
   const dirRow  = buildDirectionRow(train);
-  const sides   = buildSideLabel();
+  const sides   = buildSideLabel(train.doors);
   const legend  = buildLegend(train);
   const svcNote = train.service_note
     ? `<div class="service-note">${train.service_note}</div>` : '';
