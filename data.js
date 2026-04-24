@@ -149,7 +149,7 @@ const TRAINS = [
     priority_zones: PRI_10_STD,
     wheelchair_text:'2号車4番ドア・9号車1番ドア',
     priority_text:'1〜9号車 4番ドア・10号車 1番ドア',
-    service_note:'この車両の4号車は一部時間帯有料着席保証サービス「Q SEAT」に使用されます。Q SEAT運用時は4号車にはご乗車になれません。',
+    service_note:'この車両の5号車は一部時間帯有料着席保証サービス「Q SEAT」に使用されます。Q SEAT運用時は5号車にはご乗車になれません。',
     match:   d=>d[0]==='4'&&/[0-9]/.test(d[1]||'x')&&d[2]==='1'&&/[2-5]/.test(d[3]||'x')&&d[4]==='Y'&&d.length===5,
     partial: d=>{if(!d.length)return true;if(d[0]!=='4')return false;if(d.length===1)return true;if(!/[0-9]/.test(d[1]))return false;if(d.length===2)return true;if(d[2]!=='1')return false;if(d.length===3)return true;if(!/[2-5]/.test(d[3]))return false;if(d.length===4)return true;return d[4]==='Y'&&d.length<=5;} },
 
@@ -365,7 +365,7 @@ const TRAINS = [
     dir_left:'海老名・湘南台/元町・中華街方面', dir_right:'小手指・飯能/和光市・川越市・森林公園方面',
     zones: WC_2_4_9_1, priority_zones: PRI_10_STD,
     wheelchair_text:'2号車4番ドア・9号車1番ドア', priority_text:'1〜9号車 4番ドア・10号車 1番ドア',
-    service_note:'この車両の4号車は一部時間帯有料着席保証サービス「Q SEAT」に使用されます。Q SEAT運用時は4号車にはご乗車になれません。' },
+    service_note:'この車両の5号車は一部時間帯有料着席保証サービス「Q SEAT」に使用されます。Q SEAT運用時は5号車にはご乗車になれません。' },
 ];
 
 // ── 丸ノ内線 ───────────────────────────────────────────
@@ -396,22 +396,25 @@ const MARUNOUCHI = {
 };
 
 // ── 見た目検索ツリー ───────────────────────────────────
-// 条件分岐は表の通り、帯色の順番のみ変更可
 const VISUAL_8 = {
   q:'帯の色・外観は？',
   opts:[
     { label:'赤・ピンク', color:'#e85d6a',
       next:{ q:'車両番号の下2桁は？',
         opts:[
-          { label:'18 または 22', result:'5118'     },
-          { label:'19 または 21', result:'5119'     },
-          { label:'77 または 78', result:'5177'     },
-          { label:'上記以外',     result:'5050_56'  },
+          { label:'18 または 22', result:'5118'    },
+          { label:'19 または 21', result:'5119'    },
+          { label:'77 または 78', result:'5177'    },
+          { label:'上記以外',     result:'5050_56' },
         ]}},
     { label:'ブラウン・ゴールド', color:'#8B6914', result:'17080' },
-    { label:'全面緑', result:'aogaeru' },
-    { label:'全面カラフル', result:'sdgs' },
-    { label:'黄・青中心（帯なし）', color:'#3A8CD4', result:'y500' },
+    { label:'帯なし・その他',
+      next:{ q:'車体の外観は？',
+        opts:[
+          { label:'全面緑',       result:'aogaeru' },
+          { label:'全面カラフル', result:'sdgs'    },
+          { label:'青・黄色中心', color:'#3A8CD4', result:'y500' },
+        ]}},
   ],
 };
 
@@ -419,17 +422,15 @@ const VISUAL_10 = {
   q:'帯の色・外観は？',
   opts:[
     { label:'赤・ピンク', color:'#e85d6a',
-      next:{ q:'編成中央に全面赤の車両（Qシート）はある？',
+      next:{ q:'編成中央に全面赤の車両はある？',
         opts:[
           { label:'ある', result:'5050_4000_q_visual' },
           { label:'ない', result:'5050_4000_qno'      },
         ]}},
-    { label:'全面カラフル（人へ街へ未来へ）', result:'hito' },
-    { label:'白地に青線（新幹線デザイン）', result:'shinkansen' },
     { label:'ブラウン・ゴールド', color:'#8B6914',
       next:{ q:'車体上部の形は？',
         opts:[
-          { label:'丸い',      result:'10000' },
+          { label:'丸い',         result:'10000' },
           { label:'角張っている', result:'17000' },
         ]}},
     { label:'ドアだけカラフル',
@@ -438,9 +439,6 @@ const VISUAL_10 = {
           { label:'6席', result:'40000' },
           { label:'7席', result:'40050' },
         ]}},
-    { label:'Lions柄', result:'ltrain' },
-    { label:'青（銀またはグレー地）', color:'#2E72B8', result:'6000' },
-    { label:'全面ヨコハマネイビーブルー', color:'#1A3A6B', result:'20000' },
     { label:'オレンジ', color:'#E07320', result:'50070' },
     { label:'赤紫', color:'#8B2A5C',
       next:{ q:'車号の3桁目は？',
@@ -448,6 +446,15 @@ const VISUAL_10 = {
           { label:'0', result:'9000' },
           { label:'5', result:'9050' },
         ]}},
+    { label:'銀またはグレー地に青線', color:'#2E72B8', result:'6000' },
     { label:'ドアだけ青', result:'90000' },
+    { label:'帯なし・その他',
+      next:{ q:'車両の外観は？',
+        opts:[
+          { label:'全面カラフル',               result:'hito'       },
+          { label:'白地に青線',                 result:'shinkansen' },
+          { label:'Lions柄',                   result:'ltrain'     },
+          { label:'全面ヨコハマネイビーブルー', result:'20000'      },
+        ]}},
   ],
 };
