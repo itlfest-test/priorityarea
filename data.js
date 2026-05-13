@@ -324,8 +324,13 @@ const TRAINS = [
   { id:'9050', name:'9050系', company:'東武', cars:10,
     dir_left:'和光市・川越市・森林公園方面',
     dir_right:'元町・中華街/豊洲・新木場方面',
-    zones: null, priority_zones: null,
-    wheelchair_text:'調査中', priority_text:'調査中',
+    zones:[
+      {car:2,door:1,side:'top',type:'wheelchair'},{car:2,door:1,side:'bottom',type:'wheelchair'},
+      {car:9,door:4,side:'top',type:'wheelchair'},{car:9,door:4,side:'bottom',type:'wheelchair'},
+    ],
+    priority_zones: PRI_10_STD,
+    wheelchair_text:'2号車1番ドア・9号車4番ドア',
+    priority_text:'1〜9号車 4番ドア・10号車 1番ドア',
     match:   d=>d[0]==='9'&&/[0-9]/.test(d[1]||'x')&&d[2]==='5'&&d.length===3,
     partial: d=>{if(!d.length)return true;if(d[0]!=='9')return false;if(d.length===1)return true;if(!/[0-9]/.test(d[1]))return false;if(d.length===2)return true;return d[2]==='5'&&d.length<=3;} },
 
